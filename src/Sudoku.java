@@ -113,16 +113,29 @@ public class Sudoku {
         for (int i = 0; i < 9; i++) {
             System.out.print("|");
             for (int j = 0; j < 9; j++) {
-                System.out.print(sudokuNums[i][j] + "|");
+                boolean isInitNum = sudokuInitNums[i][j] != 0;
+                System.out.print(stringNumber(isInitNum, sudokuNums[i][j]) + "|");
                 if (j == 2 || j == 5) {
                     System.out.print(" |");
                 }
             }
             System.out.println("");
             if ((i + 1) % 3 == 0) { // prints out after every 3 rows
-                System.out.println("-----------------------");
+                System.out.println("-----------------------------------------");
             }
         }
-
+    }
+    
+    // creates string from number in sudoku
+    private String stringNumber(boolean isInitNumber, int num){
+        String s;
+        if (isInitNumber) {
+            s = "." + num + ".";
+            return s;
+        } else {
+            s = " " + num + " ";
+            return s;
+        }
+            
     }
 }

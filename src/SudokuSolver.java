@@ -64,13 +64,44 @@ public class SudokuSolver {
         }
     }
      */
-    static void solveSudoku(Sudoku s) {
+    public static void solveSudoku(Sudoku s) {
+        Integer possNumsArray[][][] = new Integer[9][9][9];
+        initPossNumsArray(possNumsArray);
+        Integer possNumsForOneSquare[] = new Integer[9];
 
+        possNumsForOneSquare = s.getPossibleNums(0, 0).toArray(possNumsForOneSquare);
+        int row = 0;
+        int column = 0;
+        boolean forwardDirection = true;
+        while (true) {
+            if (s.getSudokuInitNums()[row][column] != 0) {
+                if (forwardDirection) {
+                    row = nextRow(row, column);
+                    column = nextColumn(column);
+                } else {
+                    row = previousRow(row, column);
+                    column = previousColumn(column);
+                }
+            } else {
+//                if
+            }
+
+        }
     }
 
-    // TODO: distribution of sudokuIsSolved boolean
-    // returns true if sudoku was solved
-    private boolean solveSudokuRecursive(Sudoku s, int row, int column) {
+    // initialize PossNumsArray[][][] with nulls
+    private static void initPossNumsArray(Integer a[][][]) {
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 0; j < a[i].length; j++) {
+                a[i][j] = null;
+            }
+        }
+    }
+
+
+// ends up in stack overflow
+// returns true if sudoku was solved
+private static boolean solveSudokuRecursive(Sudoku s, int row, int column) {
         if (row == 8 && column == 8) {
             return lastSquare(s);
         }
@@ -103,7 +134,7 @@ public class SudokuSolver {
     }
 
     // returns true in case sudoku is solved, false in case it isn't
-    private boolean lastSquare(Sudoku s) {
+    private static boolean lastSquare(Sudoku s) {
         if (s.getSudokuInitNums()[8][8] != 0) {
             return true;
         } else {
@@ -121,7 +152,7 @@ public class SudokuSolver {
         }
     }
 
-    private int nextRow(int row, int column) {
+    private static int nextRow(int row, int column) {
         if (column == 8) {
             return row++;
         } else {
@@ -129,11 +160,27 @@ public class SudokuSolver {
         }
     }
 
-    private int nextColumn(int column) {
+    private static int previousRow(int row, int column) {
+        if (column == 0) {
+            return row--;
+        } else {
+            return row;
+        }
+    }
+
+    private static int nextColumn(int column) {
         if (column == 8) {
             return 0;
         } else {
             return column++;
+        }
+    }
+
+    private static int previousColumn(int column) {
+        if (column == 0) {
+            return 8;
+        } else {
+            return column--;
         }
     }
 }
