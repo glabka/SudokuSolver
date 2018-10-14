@@ -2,6 +2,8 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -86,6 +88,12 @@ public class SudokuSolver {
             } else {
                 if (possNums.isEmpty()) {
                     forwardDirection = false;
+                    try {
+                        s.removeNum(row, column);
+                    } catch (Exception ex) {
+                        Logger.getLogger(SudokuSolver.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    // TODO: probably I will have to remove element from possNumsList
                     row = previousRow(row, column);
                     column = previousColumn(column);
                 } else {
@@ -93,12 +101,12 @@ public class SudokuSolver {
                     possNums.remove(0);
                     try {
                         s.insertNum(row, column, num);
-                        
+
                         //debug start
                         System.out.println("");
                         s.print();
                         // debug end
-                        
+
                     } catch (Exception e) {
                         System.out.println(e);
                     }
@@ -121,7 +129,7 @@ public class SudokuSolver {
     // returns ArayList<Integer> containing numbers which are possible to be 
     // filled into specified row and column of sudoku
     private static List<Integer> getPossNumsList(Sudoku s, int row, int column) {
-        if (possNumsList == null) {
+        if (possNumsList == null) { // inicialization when function solveSudoku is called
             possNumsList = new ArrayList<>();
         }
         int pointer = row * 9 + column + 1;

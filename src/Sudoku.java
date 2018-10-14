@@ -86,7 +86,8 @@ public class Sudoku {
 
     // returns null in case a square with initial number is selected
     public ArrayList<Integer> getPossibleNums(int row, int column) {
-//    public Integer[] getPossibleNums(int row, int column) {
+        System.out.println("row = " + row + "\ncolumn = " + column + "   |||\n");//debug
+        
         if (sudokuInitNums[row][column] != 0) {
             return null;
         } else {
@@ -108,13 +109,11 @@ public class Sudoku {
             int j = column - (column % 3); // substracting remainder - it sets right value for iterator
             for (int k = i; k < i+3; k++) {
                 for (int l = j; l < j+3; l++) {
-                    System.out.println(sudokuNums[k][l]); //debug
+//                    System.out.println(sudokuNums[k][l]); //debug
                     possNum.remove((Integer) sudokuNums[k][l]);
                 }
             }
             return possNum;
-//            Integer[] a = new Integer[2];
-//            return possNum.toArray(a);
         }
     }
 
