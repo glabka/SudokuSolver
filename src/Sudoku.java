@@ -37,7 +37,15 @@ public class Sudoku {
             }
         }
 
-        sudokuNums = sudokuInitNums;
+        // copying initial numbers to sudokuNums
+        sudokuNums = new int[9][9];
+        for (int i = 0; i < sudokuNums.length; i++) {
+            for (int j = 0; j < sudokuNums[i].length; j++) {
+                sudokuNums[i][j] = sudokuInitNums[i][j];
+            }
+ 
+        }
+        
         this.sudokuInitNums = sudokuInitNums;
     }
 
@@ -60,7 +68,7 @@ public class Sudoku {
     }
 
     public void insertNum(int row, int column, int num) throws Exception{
-        ArrayList<Integer> possNums = getPossibleNums(row, column);
+        ArrayList<Integer> possNums = getPossibleNums(row, column);     
         if(possNums.contains((Integer) num)){
             sudokuNums[row][column] = num;
         } else {

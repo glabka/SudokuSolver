@@ -65,16 +65,17 @@ public class SudokuSolver {
     }
      */
     public static void solveSudoku(Sudoku s) {
-        Integer possNumsArray[][][] = new Integer[9][9][9];
-        initPossNumsArray(possNumsArray);
-        Integer possNumsForOneSquare[] = new Integer[9];
+        possNumsList = null;
 
-        possNumsForOneSquare = s.getPossibleNums(0, 0).toArray(possNumsForOneSquare);
         int row = 0;
         int column = 0;
         boolean forwardDirection = true;
         while (true) {
+            List<Integer> possNums = getPossNumsList(s, row, column);
             if (s.getSudokuInitNums()[row][column] != 0) {
+                if (row == 8 && column == 8) {
+                    break;
+                }
                 if (forwardDirection) {
                     row = nextRow(row, column);
                     column = nextColumn(column);
@@ -83,25 +84,68 @@ public class SudokuSolver {
                     column = previousColumn(column);
                 }
             } else {
-//                if
+                if (possNums.isEmpty()) {
+                    forwardDirection = false;
+                    row = previousRow(row, column);
+                    column = previousColumn(column);
+                } else {
+                    int num = possNums.get(0);
+                    possNums.remove(0);
+                    try {
+                        s.insertNum(row, column, num);
+                        
+                        //debug start
+                        System.out.println("");
+                        s.print();
+                        // debug end
+                        
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+
+                    if (row == 8 && column == 8) {
+                        break;
+                    }
+
+                    forwardDirection = true;
+                    row = nextRow(row, column);
+                    column = nextColumn(column);
+                }
             }
 
         }
+    }
+
+    private static List<List<Integer>> possNumsList;
+
+    // returns ArayList<Integer> containing numbers which are possible to be 
+    // filled into specified row and column of sudoku
+    private static List<Integer> getPossNumsList(Sudoku s, int row, int column) {
+        if (possNumsList == null) {
+            possNumsList = new ArrayList<>();
+        }
+        int pointer = row * 9 + column + 1;
+        if (possNumsList.size() < pointer) {
+            int diff = pointer - possNumsList.size(); //TODO: I am always counting on that diff will be 1
+            for (int i = 0; i < diff; i++) {
+                // TODO: problem with statement below - for diff > 1 it is incorrect -> correction here, ore in function solve sudoku.
+                possNumsList.add(s.getPossibleNums(row, column));
+            }
+        }
+        return possNumsList.get(pointer - 1);
     }
 
     // initialize PossNumsArray[][][] with nulls
-    private static void initPossNumsArray(Integer a[][][]) {
-        for (int i = 0; i < a.length; i++) {
-            for (int j = 0; j < a[i].length; j++) {
-                a[i][j] = null;
-            }
-        }
-    }
-
-
+//    private static void initPossNumsArray(Integer a[][][]) {
+//        for (int i = 0; i < a.length; i++) {
+//            for (int j = 0; j < a[i].length; j++) {
+//                a[i][j] = null;
+//            }
+//        }
+//    }
 // ends up in stack overflow
 // returns true if sudoku was solved
-private static boolean solveSudokuRecursive(Sudoku s, int row, int column) {
+    private static boolean solveSudokuRecursive(Sudoku s, int row, int column) {
         if (row == 8 && column == 8) {
             return lastSquare(s);
         }
@@ -154,7 +198,7 @@ private static boolean solveSudokuRecursive(Sudoku s, int row, int column) {
 
     private static int nextRow(int row, int column) {
         if (column == 8) {
-            return row++;
+            return ++row;
         } else {
             return row;
         }
@@ -162,7 +206,7 @@ private static boolean solveSudokuRecursive(Sudoku s, int row, int column) {
 
     private static int previousRow(int row, int column) {
         if (column == 0) {
-            return row--;
+            return --row;
         } else {
             return row;
         }
@@ -172,7 +216,7 @@ private static boolean solveSudokuRecursive(Sudoku s, int row, int column) {
         if (column == 8) {
             return 0;
         } else {
-            return column++;
+            return ++column;
         }
     }
 
@@ -180,7 +224,7 @@ private static boolean solveSudokuRecursive(Sudoku s, int row, int column) {
         if (column == 0) {
             return 8;
         } else {
-            return column--;
+            return --column;
         }
     }
 }
