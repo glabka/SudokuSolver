@@ -31,6 +31,7 @@ public class Main {
         Sudoku sud1 = new Sudoku(sudokuNums1);
         sud1.print();
         SudokuSolver.solveSudoku(sud1);
+        System.out.println("");
         sud1.print();
 
 //        int sudArray[][] = sud1.getSudokuNums();

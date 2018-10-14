@@ -67,23 +67,22 @@ public class SudokuSolver {
     }
      */
     public static void solveSudoku(Sudoku s) {
-        possNumsList = null;
+        possNumsList = new ArrayList<>();
+        row = 0;
+        column = -1; // so the nextSuare(s) add firt element to possNumsList
+        nextSquare(s);
 
-        int row = 0;
-        int column = 0;
         boolean forwardDirection = true;
         while (true) {
-            List<Integer> possNums = getPossNumsList(s, row, column);
+            List<Integer> possNums = possNumsList.get(possNumsList.size() - 1);
             if (s.getSudokuInitNums()[row][column] != 0) {
                 if (row == 8 && column == 8) {
                     break;
                 }
                 if (forwardDirection) {
-                    row = nextRow(row, column);
-                    column = nextColumn(column);
+                    nextSquare(s);
                 } else {
-                    row = previousRow(row, column);
-                    column = previousColumn(column);
+                    previousSquare();
                 }
             } else {
                 if (possNums.isEmpty()) {
@@ -93,9 +92,7 @@ public class SudokuSolver {
                     } catch (Exception ex) {
                         Logger.getLogger(SudokuSolver.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    // TODO: probably I will have to remove element from possNumsList
-                    row = previousRow(row, column);
-                    column = previousColumn(column);
+                    previousSquare();
                 } else {
                     int num = possNums.get(0);
                     possNums.remove(0);
@@ -103,8 +100,8 @@ public class SudokuSolver {
                         s.insertNum(row, column, num);
 
                         //debug start
-                        System.out.println("");
-                        s.print();
+//                        System.out.println("");
+//                        s.print();
                         // debug end
 
                     } catch (Exception e) {
@@ -116,8 +113,7 @@ public class SudokuSolver {
                     }
 
                     forwardDirection = true;
-                    row = nextRow(row, column);
-                    column = nextColumn(column);
+                    nextSquare(s);
                 }
             }
 
@@ -125,7 +121,22 @@ public class SudokuSolver {
     }
 
     private static List<List<Integer>> possNumsList;
+    private static int row;
+    private static int column;
 
+    private static void nextSquare(Sudoku s) {
+        row = nextRow(row, column);
+        column = nextColumn(column);
+        possNumsList.add(s.getPossibleNums(row, column));
+    }
+
+    private static void previousSquare() {
+        row = previousRow(row, column);
+        column = previousColumn(column);
+        possNumsList.remove(possNumsList.size() - 1);
+    }
+
+    //TODO: remove unused function
     // returns ArayList<Integer> containing numbers which are possible to be 
     // filled into specified row and column of sudoku
     private static List<Integer> getPossNumsList(Sudoku s, int row, int column) {

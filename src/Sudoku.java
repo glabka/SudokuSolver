@@ -86,7 +86,7 @@ public class Sudoku {
 
     // returns null in case a square with initial number is selected
     public ArrayList<Integer> getPossibleNums(int row, int column) {
-        System.out.println("row = " + row + "\ncolumn = " + column + "   |||\n");//debug
+//        System.out.println("row = " + row + "\ncolumn = " + column + "   |||\n");//debug
         
         if (sudokuInitNums[row][column] != 0) {
             return null;
