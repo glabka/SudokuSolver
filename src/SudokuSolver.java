@@ -16,64 +16,12 @@ import java.util.logging.Logger;
  */
 public class SudokuSolver {
 
-    /*
-    static void solveSudoku(Sudoku s) {
-        ArrayList<ArrayList<Integer>> possNums = new ArrayList<ArrayList<Integer>>(9 * 9);
-        int initNums[][] = s.getSudokuInitNums();
-        int p = 0; // pointer to possNums
-        int p2 = -1; // second pointer to possNums
-        int row;
-        int column;
-
-        while (true) {
-            row = p / 9;
-            column = p % 9;
-
-            if (initNums[row][column] != 0) {
-                //the is initial number in sudoku
-                if (row == 8 && column == 8) {
-                    break;
-                } else if (p >= p2) {
-                    p2 = p;
-                    p++;
-                } else {
-                    p2 = p;
-                    p--;
-                }
-            } else {
-                // place in sudoku for trying out filling it
-                if (row == 8 && column == 8 && possNums.get(p).isEmpty()) {
-                    break;
-                } else if (p >= p2){
-                    // pointer is going forward therefore possibleNums are added
-                    possNums.add(p, s.getPossibleNums(row, column));
-                    // TODO - code for trying out (inserting) some number
-                    p2 = p;
-                    p++;
-                } else {
-                     if(possNums.get(p).isEmpty()){
-                         p2 = p;
-                         p--;
-                     } else {
-                         // TODO -  code for trying out (inserting) some number
-                         p2 = p;
-                         p++;
-                     }
-                    
-                }
-            }
-
-        }
-    }
-     */
     public static void solveSudoku(Sudoku s) {
-        possNumsList = new ArrayList<>();
-        row = 0;
-        column = -1; // so the nextSuare(s) add firt element to possNumsList
-        nextSquare(s);
+        initVariables(s);
 
         boolean forwardDirection = true;
         while (true) {
+            // TODO: getters for row, column, and possNumsList
             List<Integer> possNums = possNumsList.get(possNumsList.size() - 1);
             if (s.getSudokuInitNums()[row][column] != 0) {
                 if (row == 8 && column == 8) {
@@ -98,12 +46,6 @@ public class SudokuSolver {
                     possNums.remove(0);
                     try {
                         s.insertNum(row, column, num);
-
-                        //debug start
-//                        System.out.println("");
-//                        s.print();
-                        // debug end
-
                     } catch (Exception e) {
                         System.out.println(e);
                     }
@@ -123,6 +65,15 @@ public class SudokuSolver {
     private static List<List<Integer>> possNumsList;
     private static int row;
     private static int column;
+    
+    private static void initVariables(Sudoku s){
+        possNumsList = new ArrayList<>();
+        row = 0;
+        column = -1; // so the nextSuare(s) add firt element to possNumsList
+        nextSquare(s);
+    }
+    
+
 
     private static void nextSquare(Sudoku s) {
         row = nextRow(row, column);
@@ -134,85 +85,6 @@ public class SudokuSolver {
         row = previousRow(row, column);
         column = previousColumn(column);
         possNumsList.remove(possNumsList.size() - 1);
-    }
-
-    //TODO: remove unused function
-    // returns ArayList<Integer> containing numbers which are possible to be 
-    // filled into specified row and column of sudoku
-    private static List<Integer> getPossNumsList(Sudoku s, int row, int column) {
-        if (possNumsList == null) { // inicialization when function solveSudoku is called
-            possNumsList = new ArrayList<>();
-        }
-        int pointer = row * 9 + column + 1;
-        if (possNumsList.size() < pointer) {
-            int diff = pointer - possNumsList.size(); //TODO: I am always counting on that diff will be 1
-            for (int i = 0; i < diff; i++) {
-                // TODO: problem with statement below - for diff > 1 it is incorrect -> correction here, ore in function solve sudoku.
-                possNumsList.add(s.getPossibleNums(row, column));
-            }
-        }
-        return possNumsList.get(pointer - 1);
-    }
-
-    // initialize PossNumsArray[][][] with nulls
-//    private static void initPossNumsArray(Integer a[][][]) {
-//        for (int i = 0; i < a.length; i++) {
-//            for (int j = 0; j < a[i].length; j++) {
-//                a[i][j] = null;
-//            }
-//        }
-//    }
-// ends up in stack overflow
-// returns true if sudoku was solved
-    private static boolean solveSudokuRecursive(Sudoku s, int row, int column) {
-        if (row == 8 && column == 8) {
-            return lastSquare(s);
-        }
-
-        if (s.getSudokuInitNums()[row][column] != 0) {
-            return solveSudokuRecursive(s, nextRow(row, column), nextColumn(column));
-        } else {
-            List<Integer> possNums = s.getPossibleNums(row, column);
-            if (possNums.isEmpty()) {
-                return false;
-            } else {
-                try {
-                    boolean sudokuIsSolved;
-                    for (Iterator<Integer> i = possNums.iterator(); i.hasNext();) {
-                        Integer num = i.next();
-                        s.insertNum(row, column, num);
-                        sudokuIsSolved = solveSudokuRecursive(s, nextRow(row, column), nextColumn(column));
-                        if (sudokuIsSolved) {
-                            return true;
-                        }
-                    }
-                    return false; // neither possible number solved sudoku
-                } catch (Exception e) {
-                    System.out.println(e);
-                    return true; // TODO: probably bad way to handle exception, thow this exception should not ever occure.
-                }
-            }
-        }
-
-    }
-
-    // returns true in case sudoku is solved, false in case it isn't
-    private static boolean lastSquare(Sudoku s) {
-        if (s.getSudokuInitNums()[8][8] != 0) {
-            return true;
-        } else {
-            List<Integer> possNums = s.getPossibleNums(8, 8);
-            if (possNums.isEmpty()) {
-                return false;
-            } else {
-                try {
-                    s.insertNum(8, 8, (int) possNums.get(0));
-                } catch (Exception e) {
-                    System.out.println(e);
-                }
-                return true;
-            }
-        }
     }
 
     private static int nextRow(int row, int column) {

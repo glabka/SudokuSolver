@@ -48,6 +48,8 @@ public class Sudoku {
         
         this.sudokuInitNums = sudokuInitNums;
     }
+    
+    // TODO: add constructor with variable Sudoku
 
     public int[][] getSudokuNums() {
         return copyArrays(sudokuNums);
@@ -86,8 +88,6 @@ public class Sudoku {
 
     // returns null in case a square with initial number is selected
     public ArrayList<Integer> getPossibleNums(int row, int column) {
-//        System.out.println("row = " + row + "\ncolumn = " + column + "   |||\n");//debug
-        
         if (sudokuInitNums[row][column] != 0) {
             return null;
         } else {
@@ -104,12 +104,10 @@ public class Sudoku {
                 possNum.remove((Integer) sudokuNums[i][column]);                
             }
             // possible numbers according to square
-            // TODO: check code below
             int i = row - (row % 3); // substracting remainder - it sets right value for iterator
             int j = column - (column % 3); // substracting remainder - it sets right value for iterator
             for (int k = i; k < i+3; k++) {
                 for (int l = j; l < j+3; l++) {
-//                    System.out.println(sudokuNums[k][l]); //debug
                     possNum.remove((Integer) sudokuNums[k][l]);
                 }
             }
@@ -122,7 +120,7 @@ public class Sudoku {
             System.out.print("|");
             for (int j = 0; j < 9; j++) {
                 boolean isInitNum = sudokuInitNums[i][j] != 0;
-                System.out.print(stringNumber(isInitNum, sudokuNums[i][j]) + "|");
+                System.out.print(NumberToString(isInitNum, sudokuNums[i][j]) + "|");
                 if (j == 2 || j == 5) {
                     System.out.print(" |");
                 }
@@ -134,8 +132,8 @@ public class Sudoku {
         }
     }
     
-    // creates string from number in sudoku
-    private String stringNumber(boolean isInitNumber, int num){
+    // creates string from number in sudoku. It highlights init numbers.
+    private String NumberToString(boolean isInitNumber, int num){
         String s;
         if (isInitNumber) {
             s = "." + num + ".";
