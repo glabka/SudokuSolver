@@ -16,10 +16,8 @@ import java.util.logging.Logger;
  */
 public class SudokuSolver {
 
-    /* TODO: I might rewrite this function and add inserting and removing to fuctions
-    previsousSquare and nextSquare. I am not sure how readability would be influenced,
-    but I could handle usage of global variable
-    mabey it can't be done, because this function need to know row and column to know when to end
+    /* TODO: I might rewrite this function by making local variables row[] = new int[1] and 
+    the same goes for column, using array as pointer
      */
     public static void solveSudoku(Sudoku s) {
         initVariables(s);
