@@ -33,7 +33,7 @@ public class Main {
         SudokuSolver.solveSudoku(sud1);
         System.out.println("");
         sud1.print();
-
+        
 //        int sudArray[][] = sud1.getSudokuNums();
 //        sudArray[0][0] = 1;
 //        System.out.println("");

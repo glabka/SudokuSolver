@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class Sudoku {
 
     private int sudokuNums[][];
+    // TODO: maybay this variable should be final
     private int sudokuInitNums[][]; // initial numbers of unsolved sudoku
 
     public Sudoku(int sudokuInitNums[][]) throws Exception {
@@ -49,16 +50,33 @@ public class Sudoku {
         this.sudokuInitNums = sudokuInitNums;
     }
     
-    // TODO: add constructor with variable Sudoku
+    public Sudoku(Sudoku s){
+        sudokuInitNums = s.getSudokuInitNums();
+        sudokuNums = s.getSudokuNums();
+    }
 
+    /**
+     * Function returns copy of array representing sudoku. The array contains
+     * both initial numbers and inserted numbers.
+     * @return Returns copy of array representing sudoku.
+     */
     public int[][] getSudokuNums() {
         return copyArrays(sudokuNums);
     }
 
+    /**
+     * Function returns initial numbers of sudoku
+     * @return Returns initial number of sudoku in array int[][]
+     */
     public int[][] getSudokuInitNums() {
         return copyArrays(sudokuInitNums);
     }
 
+    /**
+     * Returns new array with values from array ar
+     * @param ar the array holding values to be copied
+     * @return Returns new array with values from array ar
+     */
     private int[][] copyArrays(int ar[][]) {
         int newAr[][] = new int[ar.length][ar[0].length];
         for (int i = 0; i < ar.length; i++) {
@@ -69,24 +87,46 @@ public class Sudoku {
         return newAr;
     }
 
-    public void insertNum(int row, int column, int num) throws Exception{
+    /**
+     * Inserts number num to square in sudoku defined by row and column
+     * @param row the row of selected square
+     * @param column the column of selected square
+     * @param num the number to be inserted
+     */
+    public void insertNum(int row, int column, int num){
         ArrayList<Integer> possNums = getPossibleNums(row, column);     
         if(possNums.contains((Integer) num)){
             sudokuNums[row][column] = num;
         } else {
-            throw new Exception("Invalid number for insertion, i.e. " + num);
+            // debug
+            System.out.println("Invalid number for insertion, i.e. " + num);
         }
     }
     
-    public void removeNum(int row, int column) throws Exception{
+    /**
+     * Removes number inserted in sudoku in square of selected row and column.
+     * In case an initial number is selected throws RuntimeException.
+     * @param row the row of selected square 
+     * @param column the column of selected square
+     */
+    public void removeNum(int row, int column){
         if(sudokuInitNums[row][column] == 0){
             sudokuNums[row][column] = 0;
         } else {
-            throw new RuntimeException("An attempt to remove number which is initial part of this sudoku");
+            // debug
+            System.out.println("An attempt to remove number which is initial part of this sudoku");
         }
     }
 
-    // returns null in case a square with initial number is selected
+    /**
+     * Returns ArrayList containing numbers which can be inserted into a square
+     * in sudoku defined by row and column. Returns null in case a square with
+     * initial number is selected.
+     * @param row the row of selected square
+     * @param column the column of selected square
+     * @return ArrayList containing numbers which can be inserted into a square
+     * in sudoku defined by row and column
+     */
     public ArrayList<Integer> getPossibleNums(int row, int column) {
         if (sudokuInitNums[row][column] != 0) {
             return null;
@@ -115,6 +155,9 @@ public class Sudoku {
         }
     }
 
+    /**
+     * Prints out sudoku
+     */
     public void print() {
         for (int i = 0; i < 9; i++) {
             System.out.print("|");
@@ -132,7 +175,13 @@ public class Sudoku {
         }
     }
     
-    // creates string from number in sudoku. It highlights init numbers.
+    /** 
+     * Creates string from number in sudoku. It highlights initial numbers.
+     * @param isInitNumber says wheter the number num is initial number
+     * @param num specific number of some square in sudoku
+     * @return 
+     */
+
     private String NumberToString(boolean isInitNumber, int num){
         String s;
         if (isInitNumber) {
