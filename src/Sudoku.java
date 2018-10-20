@@ -14,9 +14,14 @@ import java.util.ArrayList;
 public class Sudoku {
 
     private int sudokuNums[][];
-    // TODO: maybay this variable should be final
-    private int sudokuInitNums[][]; // initial numbers of unsolved sudoku
+    private final int sudokuInitNums[][]; // initial numbers of unsolved sudoku
 
+    /**
+     * Constructor of Sudoku with variable int sudokuInitNums. sudokuInitNums 
+     * represents initial numbers of completely empty sudoku.
+     * @param sudokuInitNums initial numbers of empty sudoku
+     * @throws WrongSizedArrayException wrong sized array or invalid number in array
+     */
     public Sudoku(int sudokuInitNums[][]) throws Exception {
         // testing number of rows
         if (sudokuInitNums.length != 9) {
@@ -50,9 +55,13 @@ public class Sudoku {
         this.sudokuInitNums = sudokuInitNums;
     }
     
+    /**
+     * Constructor with variable Sudoku s. Values filled up in the Sudoku s are
+     * not present in new Sudoku - they are only present if they are initial numbers
+     * @param s sudoku with values to be copied
+     */
     public Sudoku(Sudoku s){
         sudokuInitNums = s.getSudokuInitNums();
-        sudokuNums = s.getSudokuNums();
     }
 
     /**
