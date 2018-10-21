@@ -103,8 +103,8 @@ public class Sudoku {
      * @param num the number to be inserted
      */
     public void insertNum(int row, int column, int num){
-        ArrayList<Integer> possNums = getPossibleNums(row, column);     
-        if(possNums.contains((Integer) num)){
+        ArrayList<Integer> validNums = getValidNums(row, column);     
+        if(validNums.contains((Integer) num)){
             sudokuNums[row][column] = num;
         } else {
             // debug
@@ -136,31 +136,31 @@ public class Sudoku {
      * @return ArrayList containing numbers which can be inserted into a square
      * in sudoku defined by row and column
      */
-    public ArrayList<Integer> getPossibleNums(int row, int column) {
+    public ArrayList<Integer> getValidNums(int row, int column) {
         if (sudokuInitNums[row][column] != 0) {
             return null;
         } else {
-            ArrayList<Integer> possNum = new ArrayList<Integer>(9);
+            ArrayList<Integer> validNums = new ArrayList<Integer>(9);
             for (int i = 1; i < 10; i++) {
-                possNum.add(i);
+                validNums.add(i);
             }
-            // possible numbers according to the row
+            // valid numbers according to the row
             for (int i = 0; i < 9; i++) {
-                possNum.remove((Integer) sudokuNums[row][i]);
+                validNums.remove((Integer) sudokuNums[row][i]);
             }
-            // possible numbers according to the column
+            // valid numbers according to the column
             for (int i = 0; i < 9; i++) {
-                possNum.remove((Integer) sudokuNums[i][column]);                
+                validNums.remove((Integer) sudokuNums[i][column]);                
             }
-            // possible numbers according to square
+            // valid numbers according to square
             int i = row - (row % 3); // substracting remainder - it sets right value for iterator
             int j = column - (column % 3); // substracting remainder - it sets right value for iterator
             for (int k = i; k < i+3; k++) {
                 for (int l = j; l < j+3; l++) {
-                    possNum.remove((Integer) sudokuNums[k][l]);
+                    validNums.remove((Integer) sudokuNums[k][l]);
                 }
             }
-            return possNum;
+            return validNums;
         }
     }
 
