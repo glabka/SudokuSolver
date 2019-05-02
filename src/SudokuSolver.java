@@ -16,16 +16,12 @@ import java.util.logging.Logger;
  */
 public class SudokuSolver {
 
-    /* TODO: I might rewrite this function by making local variables row[] = new int[1] and 
-    the same goes for column, using array as pointer
-     */
-    public static void solveSudoku(Sudoku s) {
+    public static void solveSudoku(Sudoku s) throws RemovingInitNumException, InvalidNumException {
         initVariables(s);
 
         boolean forwardDirection = true;
         while (true) {
-            // TODO: getters for row, column, and validNumsList; Mabey not - makes code less understandable
-            List<Integer> validNums = validNumsList.get(validNumsList.size() - 1);
+            List<Integer> validNums = validNumsLists.get(validNumsLists.size() - 1);
             if (s.getSudokuInitNums()[row][column] != 0) {
                 if (row == 8 && column == 8) {
                     break;
@@ -57,18 +53,18 @@ public class SudokuSolver {
         }
     }
 
-    private static List<List<Integer>> validNumsList;
+    private static List<List<Integer>> validNumsLists;
     private static int row;
     private static int column;
 
     /**
-     * Procedure that 
+     * Procedure that initiate global variables
      * @param s 
      */
     private static void initVariables(Sudoku s) {
-        validNumsList = new ArrayList<>(); //TODO: what does the <> in ArrayList<>() reprezents
+        validNumsLists = new ArrayList<>();
         row = 0;
-        column = -1; // so the nextSuare(s) add firt element to validNumsList
+        column = -1; // -1 so the nextSuare(s) add firt element to validNumsList
         nextSquare(s);
     }
 
@@ -82,7 +78,7 @@ public class SudokuSolver {
     private static void nextSquare(Sudoku s) {
         row = nextRow(row, column);
         column = nextColumn(column);
-        validNumsList.add(s.getValidNums(row, column));
+        validNumsLists.add(s.getValidNums(row, column));
     }
 
     /**
@@ -93,7 +89,7 @@ public class SudokuSolver {
     private static void previousSquare() {
         row = previousRow(row, column);
         column = previousColumn(column);
-        validNumsList.remove(validNumsList.size() - 1);
+        validNumsLists.remove(validNumsLists.size() - 1);
     }
 
     /**

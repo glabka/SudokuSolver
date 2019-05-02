@@ -4,18 +4,17 @@
  * and open the template in the editor.
  */
 
-
 /**
  *
  * @author glabka
  */
-public class WrongSizedArrayException extends Exception{
+public class InvalidNumException extends Exception{
 
-    WrongSizedArrayException(){
+    InvalidNumException(){
         super();
     }
     
-    WrongSizedArrayException(String s){
+    InvalidNumException(String s){
         super(s);
     }
 }

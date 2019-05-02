@@ -18,44 +18,65 @@ public class Main {
      * @throws java.lang.Exception
      */
     public static void main(String[] args) throws Exception {
-        int sudokuNums1[][] = {
-            {0, 2, 0, 0, 8, 0, 0, 3, 0},
-            {3, 0, 0, 0, 7, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 1, 9, 0},
-            {0, 0, 6, 2, 4, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 1},
-            {2, 0, 8, 0, 3, 6, 0, 0, 0},
-            {4, 0, 0, 0, 6, 0, 0, 0, 0},
-            {5, 0, 2, 4, 0, 0, 0, 0, 0},
-            {0, 6, 0, 0, 9, 7, 8, 0, 4}};
+//        int sudokuNums1[][] = {
+//            {0, 2, 0, 0, 8, 0, 0, 3, 0},
+//            {3, 0, 0, 0, 7, 0, 0, 0, 0},
+//            {0, 0, 0, 0, 0, 0, 1, 9, 0},
+//            {0, 0, 6, 2, 4, 0, 0, 0, 0},
+//            {0, 0, 0, 0, 0, 0, 0, 0, 1},
+//            {2, 0, 8, 0, 3, 6, 0, 0, 0},
+//            {4, 0, 0, 0, 6, 0, 0, 0, 0},
+//            {5, 0, 2, 4, 0, 0, 0, 0, 0},
+//            {0, 6, 0, 0, 9, 7, 8, 0, 4}};
+//        int sudokuNums1[][] = {
+//            {0, 2, 0, 0, 8, 0, 0, 3, 0},
+//            {3, 0, 0, 0, 7, 0, 0, 0, 0},
+//            {0, 0, 0, 0, 0, 0, 1, 9, 0},
+//            {0, 0, 6, 2, 4, 0, 0, 0, 0},
+//            {0, 0, 0, 0, 0, 0, 0, 0, 1},
+//            {2, 0, 8, 0, 3, 6, 0, 0, 0},
+//            {4, 0, 0, 0, 6, 0, 0, 0, 0},
+//            {5, 0, 2, 4, 0, 0, 0, 0, 0},
+//            {0, 6, 0, 0, 9, 7, 8, 0, 0}};
+//int sudokuNums1[][] = {
+//            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+//            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+//            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+//            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+//            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+//            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+//            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+//            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+//            {0, 0, 0, 0, 0, 0, 0, 0, 0}};
+//int sudokuNums1[][] = {
+//            {1, 0, 0, 0, 0, 0, 0, 0, 0},
+//            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+//            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+//            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+//            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+//            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+//            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+//            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+//            {0, 0, 0, 0, 0, 0, 0, 0, 1}};
+int sudokuNums1[][] = {
+            {6, 2, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 5, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 1, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 3, 0},
+            {0, 0, 3, 0, 0, 0, 0, 0, 1}};
         Sudoku sud1 = new Sudoku(sudokuNums1);
+        System.out.println("unsolved sudoku:");
         sud1.print();
         SudokuSolver.solveSudoku(sud1);
         System.out.println("");
+        System.out.println("solved sudoku:");
         sud1.print();
         
-//        int sudArray[][] = sud1.getSudokuNums();
-//        sudArray[0][0] = 1;
-//        System.out.println("");
-//        sud1.print();
-//        ArrayList<Integer> a = sud1.getPossibleNums(7,1);
-//        System.out.println(a);
 
-//        List<List<Integer>> l = new ArrayList<>();
-//        l.add(sud1.getPossibleNums(0, 0));
-//        l.add(sud1.getPossibleNums(0, 1));
-//        System.out.println("l.size = " + l.size());
-//        System.out.println("l.get(0).size() = " + l.get(0).size());
-//        System.out.println("");
-//        System.out.println("l.get(0).get(0) = " + l.get(0).get(0));
-//        System.out.println("l.get(0).get(1) = " + l.get(0).get(1));
-//        System.out.println("l.get(0).get(2) = " + l.get(0).get(2));
-//        System.out.println("l.get(0).get(3) = " + l.get(0).get(3));
-//        System.out.println("");
-//        System.out.println("l.get(1) = " + l.get(1));
-//        System.out.println("l.get(0).remove(3);");
-//        l.get(0).remove(3);
-//        System.out.println("l.get(0).size() = " + l.get(0).size());
     }
 
 }

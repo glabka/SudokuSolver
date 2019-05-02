@@ -8,12 +8,13 @@
  *
  * @author glabka
  */
-public class NumberOutOfBounds extends Exception{
+public class NumberOutOfBoundsException extends Exception{
 
-    NumberOutOfBounds(){
+    NumberOutOfBoundsException(){
+        super();
     }
     
-    NumberOutOfBounds(String s){
+    NumberOutOfBoundsException(String s){
         super(s);
     }
 }
