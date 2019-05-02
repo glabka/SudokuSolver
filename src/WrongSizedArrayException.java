@@ -9,7 +9,7 @@
  *
  * @author glabka
  */
-public class WrongSizedArrayException extends Exception{
+public class WrongSizedArrayException extends RuntimeException{
 
     WrongSizedArrayException(){
         super();

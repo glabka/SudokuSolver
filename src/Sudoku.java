@@ -20,11 +20,8 @@ public class Sudoku {
      * represents initial numbers of completely empty sudoku.
      *
      * @param sudokuInitNums initial numbers of empty sudoku
-     * @throws WrongSizedArrayException wrong sized array sudokuInitNums
-     * @throws NumberOutOfBoundsException number out of bounds 0 - 9 in sudokuInitNums
-     * @throws DuplicateNumberException when there are more then one same number in one row, column or 3x3 square
      */
-    public Sudoku(int sudokuInitNums[][]) throws WrongSizedArrayException, NumberOutOfBoundsException, DuplicateNumberException {
+    public Sudoku(int sudokuInitNums[][]) {
         // testing number of rows
         if (sudokuInitNums.length != 9) {
             throw new WrongSizedArrayException("wrong number of rows: " + sudokuInitNums.length);
@@ -113,7 +110,7 @@ public class Sudoku {
      * @param column the column of selected square
      * @param num the number to be inserted
      */
-    public void insertNum(int row, int column, int num) throws InvalidNumException {
+    public void insertNum(int row, int column, int num){
         ArrayList<Integer> validNums = getValidNums(row, column);
         if (validNums.contains((Integer) num)) { 
             sudokuNums[row][column] = num;
@@ -124,12 +121,12 @@ public class Sudoku {
 
     /**
      * Removes number inserted in sudoku in square of selected row and column.
-     * In case an initial number is selected throws RuntimeException.
+     * In case an initial number is selected throws RemovingInitNumException.
      *
      * @param row the row of selected square
      * @param column the column of selected square
      */
-    public void removeNum(int row, int column) throws RemovingInitNumException {
+    public void removeNum(int row, int column) {
         if (sudokuInitNums[row][column] == 0) {
             sudokuNums[row][column] = 0;
         } else {
@@ -175,7 +172,13 @@ public class Sudoku {
         }
     }
 
-    private void duplications(int[][] s) throws DuplicateNumberException {
+    /**
+     * Checks for duplication of numbers in rows, columns and 3x3 squares in
+     * array representing sudoku
+     * 
+     * @param s 
+     */
+    private void duplications(int[][] s) {
         for (int i = 0; i < s.length; i++) {
             isValidRow(s, i);
         }
@@ -197,9 +200,8 @@ public class Sudoku {
      *
      * @param s array representing initial sudoku numbers
      * @param row row which should be checked
-     * @throws DuplicateNumberException
      */
-    private void isValidRow(int[][] s, int row) throws DuplicateNumberException {
+    private void isValidRow(int[][] s, int row) {
         ArrayList<Integer> containedNums = new ArrayList<Integer>(9);
         for (int i = 0; i < s[row].length; i++) {
             int val = s[row][i];
@@ -218,9 +220,8 @@ public class Sudoku {
      *
      * @param s array representing initial sudoku numbers
      * @param column column which should be checked
-     * @throws DuplicateNumberException
      */
-    private void isValidColumn(int[][] s, int column) throws DuplicateNumberException {
+    private void isValidColumn(int[][] s, int column) {
         ArrayList<Integer> containedNums = new ArrayList<Integer>(9);
         for (int i = 0; i < s.length; i++) {
             int val = s[i][column];
@@ -241,9 +242,8 @@ public class Sudoku {
      * @param s array representing initial sudoku numbers
      * @param squareRow ranges from 0 to 2 - there are 3 rows of 3x3 squares
      * @param squareColumn ranges from 0 to 2 - there are 3 columns of 3x3 squares
-     * @throws DuplicateNumberException 
      */
-    private void isValidSquare(int[][] s, int squareRow, int squareColumn) throws DuplicateNumberException {
+    private void isValidSquare(int[][] s, int squareRow, int squareColumn) {
         ArrayList<Integer> containedNums = new ArrayList<Integer>(9);
         int k = squareRow*3;
         int l = squareColumn*3;

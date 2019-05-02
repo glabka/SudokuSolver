@@ -8,7 +8,7 @@
  *
  * @author glabka
  */
-public class DuplicateNumberException extends Exception{
+public class DuplicateNumberException extends RuntimeException{
 
     DuplicateNumberException(){
         super();

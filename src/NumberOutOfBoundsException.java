@@ -8,7 +8,7 @@
  *
  * @author glabka
  */
-public class NumberOutOfBoundsException extends Exception{
+public class NumberOutOfBoundsException extends RuntimeException{
 
     NumberOutOfBoundsException(){
         super();

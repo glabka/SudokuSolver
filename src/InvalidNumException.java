@@ -8,7 +8,7 @@
  *
  * @author glabka
  */
-public class InvalidNumException extends Exception{
+public class InvalidNumException extends RuntimeException{
 
     InvalidNumException(){
         super();

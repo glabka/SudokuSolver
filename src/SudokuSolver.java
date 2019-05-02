@@ -16,7 +16,11 @@ import java.util.logging.Logger;
  */
 public class SudokuSolver {
 
-    public static void solveSudoku(Sudoku s) throws RemovingInitNumException, InvalidNumException {
+    /**
+     * Solves sudoku s.
+     * @param s sudoku to be solved
+     */
+    public static void solveSudoku(Sudoku s) {
         initVariables(s);
 
         boolean forwardDirection = true;

@@ -8,7 +8,7 @@
  *
  * @author glabka
  */
-public class RemovingInitNumException extends Exception{
+public class RemovingInitNumException extends RuntimeException{
 
     RemovingInitNumException(){
         super();
