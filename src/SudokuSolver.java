@@ -16,30 +16,37 @@ import java.util.logging.Logger;
  */
 public class SudokuSolver {
 
-    /* TODO: I might rewrite this function by making local variables row[] = new int[1] and 
-    the same goes for column, using array as pointer
+    /* TODO: UNDO ALL CHANGES IN SOLVESUDOKU TO VERSION WITH GLOBAL VARIABLE PROBABLY
+      (because now I have variables in function which are not to be changed by this function)
      */
     public static void solveSudoku(Sudoku s) {
-        initVariables(s);
-
+        //initialization of variables
+        List<List<Integer>> validNumsList = new ArrayList<>();
+        int pointerToRow[] = {0};
+        int pointerToColumn[] = {-1};
+        nextSquare(s, validNumsList, pointerToRow,  pointerToColumn); // 
+                
         boolean forwardDirection = true;
+
         while (true) {
-            // TODO: getters for row, column, and validNumsList; Mabey not - makes code less understandable
             List<Integer> validNums = validNumsList.get(validNumsList.size() - 1);
+            int row = pointerToRow[0];
+            int column = pointerToColumn[0];
+            
             if (s.getSudokuInitNums()[row][column] != 0) {
                 if (row == 8 && column == 8) {
                     break;
                 }
                 if (forwardDirection) {
-                    nextSquare(s);
+                    nextSquare(s, validNumsList, pointerToRow,  pointerToColumn);
                 } else {
-                    previousSquare();
+                    previousSquare(validNumsList, pointerToRow,  pointerToColumn);
                 }
             } else {
                 if (validNums.isEmpty()) {
                     forwardDirection = false;
                     s.removeNum(row, column);
-                    previousSquare();
+                    previousSquare(validNumsList, pointerToRow,  pointerToColumn);
                 } else {
                     int num = validNums.get(0);
                     validNums.remove(0);
@@ -50,49 +57,51 @@ public class SudokuSolver {
                     }
 
                     forwardDirection = true;
-                    nextSquare(s);
+                    nextSquare(s, validNumsList, pointerToRow,  pointerToColumn);
                 }
             }
 
         }
     }
 
-    private static List<List<Integer>> validNumsList;
-    private static int row;
-    private static int column;
 
     /**
-     * Procedure that 
-     * @param s 
-     */
-    private static void initVariables(Sudoku s) {
-        validNumsList = new ArrayList<>(); //TODO: what does the <> in ArrayList<>() reprezents
-        row = 0;
-        column = -1; // so the nextSuare(s) add firt element to validNumsList
-        nextSquare(s);
-    }
-
-    /**
-     * Procedure changes global variables int row, int column and List<List<Integer>> validNumsList.
-     * int row and int column are changed to coordinates of next square in sudoku. 
-     * ArrayList containing numbers that can be filled to the current square of 
-     * sudoku (acording to rules of sudoku including already filled up numbers).
+     * Procedure changes global variables int row, int column and
+     * List<List<Integer>> validNumsList. int row and int column are changed to
+     * coordinates of next square in sudoku. ArrayList containing numbers that
+     * can be filled to the current square of sudoku (acording to rules of
+     * sudoku including already filled up numbers).
+     * 
      * @param s sudoku being solved
+     * @param validNumsList list of Lists containing Integers which are valid numbers to fill into specific empty sudoku cell
+     * @param pointerToRow pointer to row of current cell
+     * @param pointerToColumn pointer to row of current cell
      */
-    private static void nextSquare(Sudoku s) {
-        row = nextRow(row, column);
-        column = nextColumn(column);
-        validNumsList.add(s.getValidNums(row, column));
+    private static void nextSquare(Sudoku s, List<List<Integer>> validNumsList, int[] pointerToRow, int[] pointerToColumn) {
+        int row = pointerToRow[0];
+        int column = pointerToColumn[0];
+        
+        pointerToRow[0] = nextRow(row, column);
+        pointerToColumn[0] = nextColumn(column);
+        validNumsList.add(s.getValidNums(pointerToRow[0], pointerToColumn[0]));
     }
 
     /**
-     * Procedure changes global variables int row, int column and List<List<Integer>> validNumsList.
-     * int row and int column are changed to coordinates of previous square in sudoku. 
-     * Last element of validNumsList is removed.
+     * Procedure changes global variables int row, int column and
+     * List<List<Integer>> validNumsList. int row and int column are changed to
+     * coordinates of previous square in sudoku. Last element of validNumsList
+     * is removed.
+     * 
+     * @param validNumsList list of Lists containing Integers which are valid numbers to fill into specific empty sudoku cell
+     * @param pointerToRow pointer to row of current cell
+     * @param pointerToColumn pointer to row of current cell
      */
-    private static void previousSquare() {
-        row = previousRow(row, column);
-        column = previousColumn(column);
+    private static void previousSquare(List<List<Integer>> validNumsList, int[] pointerToRow, int[] pointerToColumn) {
+        int row = pointerToRow[0];
+        int column = pointerToColumn[0];
+        
+        pointerToRow[0] = previousRow(row, column);
+        pointerToColumn[0] = previousColumn(column);
         validNumsList.remove(validNumsList.size() - 1);
     }
 
