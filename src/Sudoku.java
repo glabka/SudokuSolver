@@ -13,16 +13,17 @@ import java.util.ArrayList;
  */
 public class Sudoku {
 
-    private int sudokuNums[][];
+    private int sudokuNums[][]; // initial numbers of unsolved sudoku plus inserted numbers of potential solution
     private final int sudokuInitNums[][]; // initial numbers of unsolved sudoku
 
     /**
      * Constructor of Sudoku with variable int sudokuInitNums. sudokuInitNums 
      * represents initial numbers of completely empty sudoku.
      * @param sudokuInitNums initial numbers of empty sudoku
-     * @throws WrongSizedArrayException wrong sized array or invalid number in array
+     * @throws WrongSizedArrayException wrong sized array sudokuInitNums
+     * @throws NumberOutOfBounds number out of bounds 0 - 9 in  sudokuInitNums
      */
-    public Sudoku(int sudokuInitNums[][]) throws Exception {
+    public Sudoku(int sudokuInitNums[][]) throws WrongSizedArrayException, NumberOutOfBounds {
         // testing number of rows
         if (sudokuInitNums.length != 9) {
             throw new WrongSizedArrayException("wrong number of rows: " + sudokuInitNums.length);
@@ -30,7 +31,7 @@ public class Sudoku {
         // testing number of columns
         for (int i = 0; i < sudokuInitNums.length; i++) {
             if (sudokuInitNums[i].length != 9) {
-                throw new WrongSizedArrayException("wron number of columns: " + sudokuInitNums.length + " in row number: " + i);
+                throw new WrongSizedArrayException("wrong number of columns: " + sudokuInitNums.length + " in row number: " + i);
             }
         }
         // testing values in sudokuInit Nums
@@ -38,7 +39,7 @@ public class Sudoku {
             for (int j = 0; j < sudokuInitNums[i].length; j++) {
                 int val = sudokuInitNums[i][j];
                 if (val < 0 || val > 9) {
-                    throw new Exception("invalid value in sudokuInitNums[" + i + "][" + j + "] = " + val);
+                    throw new NumberOutOfBounds("invalid value in sudokuInitNums[" + i + "][" + j + "] = " + val);
                 }
             }
         }
@@ -61,6 +62,7 @@ public class Sudoku {
      * @param s sudoku with values to be copied
      */
     public Sudoku(Sudoku s){
+        sudokuNums = s.getSudokuInitNums();
         sudokuInitNums = s.getSudokuInitNums();
     }
 
@@ -104,9 +106,10 @@ public class Sudoku {
      */
     public void insertNum(int row, int column, int num){
         ArrayList<Integer> validNums = getValidNums(row, column);     
-        if(validNums.contains((Integer) num)){
+        if(validNums.contains((Integer) num)){ // TODO test when initNum is selected
             sudokuNums[row][column] = num;
         } else {
+            //TODO
             // debug
             System.out.println("Invalid number for insertion, i.e. " + num);
         }
@@ -122,6 +125,7 @@ public class Sudoku {
         if(sudokuInitNums[row][column] == 0){
             sudokuNums[row][column] = 0;
         } else {
+            // TODO
             // debug
             System.out.println("An attempt to remove number which is initial part of this sudoku");
         }
@@ -134,7 +138,7 @@ public class Sudoku {
      * @param row the row of selected square
      * @param column the column of selected square
      * @return ArrayList containing numbers which can be inserted into a square
-     * in sudoku defined by row and column
+     * in sudoku defined by row and column according to rules of sudoku 
      */
     public ArrayList<Integer> getValidNums(int row, int column) {
         if (sudokuInitNums[row][column] != 0) {
@@ -144,17 +148,17 @@ public class Sudoku {
             for (int i = 1; i < 10; i++) {
                 validNums.add(i);
             }
-            // valid numbers according to the row
+            // valid numbers according to the column
             for (int i = 0; i < 9; i++) {
                 validNums.remove((Integer) sudokuNums[row][i]);
             }
-            // valid numbers according to the column
+            // valid numbers according to the row
             for (int i = 0; i < 9; i++) {
                 validNums.remove((Integer) sudokuNums[i][column]);                
             }
             // valid numbers according to square
-            int i = row - (row % 3); // substracting remainder - it sets right value for iterator
-            int j = column - (column % 3); // substracting remainder - it sets right value for iterator
+            int i = row - (row % 3); // substracting remainder sets value for iterator to beginning of 9x9 square
+            int j = column - (column % 3); // substracting remainder sets value for iterator to beginning of 9x9 square
             for (int k = i; k < i+3; k++) {
                 for (int l = j; l < j+3; l++) {
                     validNums.remove((Integer) sudokuNums[k][l]);
@@ -165,7 +169,7 @@ public class Sudoku {
     }
 
     /**
-     * Prints out sudoku
+     * Prints out sudoku with highlighted initial numbers
      */
     public void print() {
         for (int i = 0; i < 9; i++) {
